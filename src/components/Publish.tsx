@@ -24,7 +24,7 @@ const Publish = ({publish}) => {
             />
             <TextInput 
                 style={Styles.input}
-                placeholder="topic"
+                placeholder="publish to topic"
                 onChangeText={setTopicInput}
                 value={topicInput}
             />

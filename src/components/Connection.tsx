@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Pressable, StyleSheet } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { Styles } from '../../assets/Styles';
 
 const Connection = ({ connect, disconnect, connectionButtonLable }) => {
@@ -29,7 +29,7 @@ const Connection = ({ connect, disconnect, connectionButtonLable }) => {
                 <Text>Disconnect</Text>
             </Pressable>
         </View>
-    )
-}
+    );
+};
 
 export default Connection;
