@@ -1,15 +1,48 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Connection from './src/components/Connection';
+import mqtt, { MqttClient } from 'mqtt/dist/mqtt';
 
-export default function App() {
+const App = () => {
+  const [client, setClient] = useState<MqttClient | null>(null);
+  const [connectionStatus, setConnectionStatus] = useState<string>("Connect");
+
+  useEffect(() => {
+    if (client) {
+      client.on("connect", () => {
+        setConnectionStatus("Connected");
+      });
+      client.on("err", (err: Error) => {
+        console.error("Connection error: ", err);
+      });
+      client.on("disconnect", () => {
+        console.log("disconnected");
+      });
+    }
+  }, [client]);
+
+  const mqttConnect = (host: any, mqttOptions: any) => {
+    setConnectionStatus("Connecting");
+    setClient(mqtt.connect(host, mqttOptions));
+  };
+
+  
+  const mqttDisconnect = () => {
+    if (client) {
+      client.end(() => {
+        setConnectionStatus('Connect');
+      });
+    }
+  }
+  
   return (
     <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Connection connect={mqttConnect} disconnect={mqttDisconnect} connectionButtonLable={connectionStatus} />
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {
@@ -18,4 +51,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    borderWidth: 1,
+    borderRadius: 10,
+    padding: 10,
+    margin: 5
+  }
 });
+
+export default App;
