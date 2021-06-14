@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native'
-import { styles } from '../../assets/Styles';
+import { Styles } from '../../assets/Styles';
 
 const Connection = ({ connect, disconnect, connectionButtonLable }) => {
 
@@ -16,7 +16,6 @@ const Connection = ({ connect, disconnect, connectionButtonLable }) => {
 
     return (
         <View>
-            <Text>Connection Component</Text>
             <Pressable
                 onPress={handleConnect}
                 style={Styles.button}
@@ -34,12 +33,3 @@ const Connection = ({ connect, disconnect, connectionButtonLable }) => {
 }
 
 export default Connection;
-
-const Styles = StyleSheet.create({
-    button: {
-        borderWidth: 1,
-        borderRadius: 10,
-        padding: 10,
-        margin: 5
-    }
-})

@@ -1,8 +1,9 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Connection from './src/components/Connection';
 import mqtt, { MqttClient } from 'mqtt/dist/mqtt';
+import Publish from './src/components/Publish';
+import { Styles } from './assets/Styles';
 
 const App = () => {
   const [client, setClient] = useState<MqttClient | null>(null);
@@ -13,13 +14,10 @@ const App = () => {
       client.on("connect", () => {
         setConnectionStatus("Connected");
       });
-      client.on("err", (err: Error) => {
-        console.error("Connection error: ", err);
+      client.on("error", (error: Error) => {
+        console.error("Something went wrong ", error);
       });
-      client.on("disconnect", () => {
-        console.log("disconnected");
-      });
-    }
+    };
   }, [client]);
 
   const mqttConnect = (host: any, mqttOptions: any) => {
@@ -27,36 +25,26 @@ const App = () => {
     setClient(mqtt.connect(host, mqttOptions));
   };
 
-  
   const mqttDisconnect = () => {
     if (client) {
       client.end(() => {
         setConnectionStatus('Connect');
+        console.log("Good buy");
       });
+    };
+  };
+
+  const mqttPublish = (topic: string, message: string) => {
+    if (client) {
+      client.publish(topic, message);
     }
   }
-  
   return (
-    <View style={styles.container}>
+    <View style={Styles.appContainer}>
       <Connection connect={mqttConnect} disconnect={mqttDisconnect} connectionButtonLable={connectionStatus} />
+      <Publish publish={mqttPublish} />
     </View>
   );
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  button: {
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
-    margin: 5
-  }
-});
 
 export default App;
