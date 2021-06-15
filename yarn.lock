@@ -1832,6 +1832,13 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
+"@types/mqtt@^2.5.0":
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/@types/mqtt/-/mqtt-2.5.0.tgz#bc54c2d53f509282168da4a9af865de95bee5101"
+  integrity sha512-n+0/ErBin30j+UbhcHGK/STjHjh65k85WNR6NlUjRG0g9yctpF12pS+SOkwz0wmp+7momAo9Cyi4Wmvy8UsCQg==
+  dependencies:
+    mqtt "*"
+
 "@types/node@*", "@types/node@^15.12.2":
   version "15.12.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-15.12.2.tgz#1f2b42c4be7156ff4a6f914b2fb03d05fa84e38d"
@@ -4875,7 +4882,7 @@ mqtt-packet@^6.6.0:
     debug "^4.1.1"
     process-nextick-args "^2.0.1"
 
-mqtt@^4.2.6:
+mqtt@*, mqtt@^4.2.6:
   version "4.2.6"
   resolved "https://registry.yarnpkg.com/mqtt/-/mqtt-4.2.6.tgz#b655547a9cfb3d86bfb398948b8dbb37e2e3bfd0"
   integrity sha512-GpxVObyOzL0CGPBqo6B04GinN8JLk12NRYAIkYvARd9ZCoJKevvOyCaWK6bdK/kFSDj3LPDnCsJbezzNlsi87Q==

@@ -19,6 +19,5 @@ export const Styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
-
     }
 })
