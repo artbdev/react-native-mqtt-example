@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
 import { View, Text, Pressable, TextInput } from 'react-native'
+import React, { useState } from 'react';
 import { Styles } from '../../assets/Styles';
+import { PublishProps } from '../../Interfaces';
 
-const Publish = ({publish}) => {
+const Publish: React.FC<PublishProps> = (props: PublishProps) => {
     const [messageInput, setMessageInput] = useState<string>("");
     const [topicInput, setTopicInput] = useState<string>("");
 
@@ -10,7 +11,7 @@ const Publish = ({publish}) => {
         <View>
             <Pressable
                 style={Styles.button}
-                onPress={() => publish(topicInput, messageInput)} 
+                onPress={() => props.publish(topicInput, messageInput)} 
             >
                 <Text>
                     Publish

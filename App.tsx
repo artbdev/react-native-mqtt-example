@@ -71,7 +71,7 @@ const App = () => {
   return (
     <View style={Styles.appContainer}>
       <Connection connect={connectToBroker} disconnect={disconnectFromBroker} connectionButtonLable={connectionStatus} />
-      <Subscribe subscribe={subscribeToTopic} unsubscribe={unSubscribeToTopic} showIsSubscribed={isSubscribed} />
+      <Subscribe subscribe={subscribeToTopic} unsubscribe={unSubscribeToTopic} />
       <Publish publish={publishMessageViaTopic} />
       <MessageContainer messages={messages} />
     </View>

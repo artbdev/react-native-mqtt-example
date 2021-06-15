@@ -1,17 +1,18 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native'
 import { Styles } from '../../assets/Styles';
+import { ConnectionProps } from '../../Interfaces';
 
-const Connection = ({ connect, disconnect, connectionButtonLable }) => {
+const Connection: React.FC<ConnectionProps> = (props: ConnectionProps) => {
 
     const url = "ws://70.35.204.233:8888";
 
     const handleConnect = () => {
-        connect(url, { clientId: "new client" });
+        props.connect(url, { clientId: "new client" });
     };
 
     const handleDisconnect = () => {
-        disconnect();
+        props.disconnect();
     };
 
     return (
@@ -20,7 +21,7 @@ const Connection = ({ connect, disconnect, connectionButtonLable }) => {
                 onPress={handleConnect}
                 style={Styles.button}
             >
-                <Text>{connectionButtonLable}</Text>
+                <Text>{props.connectionButtonLable}</Text>
             </Pressable>
             <Pressable
                 onPress={handleDisconnect}

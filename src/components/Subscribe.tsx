@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, Pressable, TextInput } from 'react-native'
 import { Styles } from '../../assets/Styles';
+import { SubscribeProps } from '../../Interfaces';
 
-const Subscribe = ({subscribe, unsubscribe, showIsSubscribed}) => {
+const Subscribe: React.FC<SubscribeProps> = (props: SubscribeProps) => {
     const [subscribeToTopicInput, setSubscribeToTopicInput] = useState<string>("");
     const [unSubscribeToTopicInput, setUnsubscribeToTopicInput] = useState<string>("");
 
     const handleSubscribe = () => {
-        subscribe(subscribeToTopicInput);
+        props.subscribe(subscribeToTopicInput);
     };
 
     const handleUnsubscribe = () => {
-        unsubscribe(unSubscribeToTopicInput)
+        props.unsubscribe(unSubscribeToTopicInput)
     }
 
     return (

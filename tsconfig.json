@@ -4,5 +4,8 @@
     "jsx": "react",
     "strict": true,
     "moduleResolution": "node"
-  }
+  },
+  "files": [
+    "./node_modules/mqtt/types/index.d.ts"
+  ]
 }
