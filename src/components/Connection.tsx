@@ -1,14 +1,14 @@
 import React from 'react';
 import { View, Text, Pressable } from 'react-native'
 import { Styles } from '../../assets/Styles';
-import { ConnectionProps } from '../../Interfaces';
+import { ConnectionProps } from '../Interfaces';
+
+const url = "ws://broker.emqx.io:8083/mqtt";
 
 const Connection: React.FC<ConnectionProps> = (props: ConnectionProps) => {
 
-    const url = "ws://70.35.204.233:8888";
-
     const handleConnect = () => {
-        props.connect(url, { clientId: "new client" });
+        props.connect(url, { clientId: `mqttjs_ + ${Math.random().toString(16).substr(2, 8)}` });
     };
 
     const handleDisconnect = () => {
@@ -16,19 +16,15 @@ const Connection: React.FC<ConnectionProps> = (props: ConnectionProps) => {
     };
 
     return (
-        <View>
-            <Pressable
-                onPress={handleConnect}
-                style={Styles.button}
-            >
-                <Text>{props.connectionButtonLable}</Text>
-            </Pressable>
-            <Pressable
-                onPress={handleDisconnect}
-                style={Styles.button}
-            >
-                <Text>Disconnect</Text>
-            </Pressable>
+        <View style={Styles.mqttActionComponentContainer}>
+            <View style={Styles.mqttActionComponentElement}>
+                <Pressable
+                    onPress={!props.isConnected ? handleConnect : handleDisconnect}
+                    style={Styles.button}
+                >
+                    <Text style={Styles.buttonText}>{props.connectionButtonLabel}</Text>
+                </Pressable>
+            </View>
         </View>
     );
 };

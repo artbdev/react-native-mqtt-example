@@ -1,5 +1,5 @@
 /* Connection options prop is no way    
-   and exaustive list of options available.
+   and exaustive list of options avaiLabel.
    Please see https://github.com/mqttjs/MQTT.js/blob/master/README.md#client
    for more detais.
 */
@@ -18,7 +18,8 @@ export interface ConnectionOptionProps {
 export interface ConnectionProps {
     connect: (url: string, connectionOptions: ConnectionOptionProps) => void;
     disconnect: () => void;
-    connectionButtonLable: string;
+    connectionButtonLabel: string;
+    isConnected: boolean;
 }
 
 export interface SubscribeProps {
@@ -28,13 +29,17 @@ export interface SubscribeProps {
 
 export interface PublishProps {
     publish: (topic: string, message: string) => void;
+    clearMessages: () => void;
 }
 
-export interface MessageContainerProps {
+export interface MessageCollectionContainerProps {
     messages: PayloadProps[];
+    clearMessages: () => void;
 }
 
 export interface PayloadProps {
-    topic: string;
+    topic?: string;
     content: string;
+    dateTimeSent: string;
+    dateTimeReceived?: string;
 }
