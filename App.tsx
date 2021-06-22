@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text, Alert } from 'react-native';
 import mqtt, { MqttClient } from 'mqtt/dist/mqtt';
 import { Styles } from './assets/Styles';
@@ -14,7 +14,12 @@ const App = () => {
   const [client, setClient] = useState<MqttClient | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [messages, setMessages] = useState<PayloadProps[]>(initialPayloadData);
+  const [subscriptions, setSubscriptions] = useState<string[]>([]);
   const [connectionButtonLabel, setConnectionButtonLabel] = useState<string>("Connect");
+
+  useEffect(() => {
+    Alert.alert(`Current subscriptions: ${subscriptions}`);
+  }, [subscriptions]);
 
   useEffect(() => {
     if (client) {
@@ -29,10 +34,10 @@ const App = () => {
       client.on("message", (topic: string, message: string) => {
         const incomingPayload: PayloadProps = JSON.parse(message);
         const sendDateTime = formatSendDateTime();
-        const messageReived: PayloadProps = { 
-          topic: topic, 
-          content: incomingPayload.content, 
-          dateTimeSent: incomingPayload.dateTimeSent, 
+        const messageReived: PayloadProps = {
+          topic: topic,
+          content: incomingPayload.content,
+          dateTimeSent: incomingPayload.dateTimeSent,
           dateTimeReceived: sendDateTime
         };
         setMessages(messages => [...messages, messageReived]);
@@ -57,6 +62,42 @@ const App = () => {
     };
   };
 
+
+  const subscribeToTopic = (topic: string) => {
+    if (!topic) {
+      Alert.alert("Please provide a topic.");
+    };
+    if (client && topic) {
+      client.subscribe(topic, { qos: 0 }, (error: Error) => {
+        if (!error && !subscriptions.includes(topic)) {
+          setSubscriptions(subscriptions => [...subscriptions, topic]);
+        } else if(subscriptions.includes(topic)) {
+          Alert.alert(`You are already subscribed to topic: ${topic}`);
+        }
+      });
+    };
+  };
+
+  const unSubscribeToTopic = (topic: string) => {
+    if (!topic) {
+      Alert.alert("Please provide a topic.");
+    };
+    if (client && topic) {
+      client.unsubscribe(topic, (error: Error) => {
+        if (!error) {
+          if (subscriptions.includes(topic)) {
+            setSubscriptions(subscriptions => 
+              subscriptions.filter(subscribedtopic => subscribedtopic !== topic));
+          } else if (!subscriptions.includes(topic)) {
+            Alert.alert(`You are not subcribed to topic: ${topic}`);
+          }
+        } else {
+          console.log('Unsubscribe error', error);
+        }
+      });
+    };
+  };
+
   const publishMessageViaTopic = (topic: string, message: string) => {
     if (!topic) {
       Alert.alert("Please provide a topic.");
@@ -76,34 +117,6 @@ const App = () => {
   const clearMessages = () => {
     setMessages([]);
   }
-
-  const subscribeToTopic = (topic: string) => {
-    if (!topic) {
-      Alert.alert("Please provide a topic.");
-    };
-    if (client && topic) {
-      client.subscribe(topic, { qos: 0 }, (error: Error) => {
-        if (!error) {
-          Alert.alert(`Subscribed to topic: ${topic}`);
-        };
-      });
-    };
-  };
-
-  const unSubscribeToTopic = (topic: string) => {
-    if (!topic) {
-      Alert.alert("Please provide a topic.");
-    };
-    if (client && topic) {
-      client.unsubscribe(topic, (error: Error) => {
-        if (!error) {
-          Alert.alert(`Unsubscribed to topic: ${topic}`);
-        } else {
-          console.log('Unsubscribe error', error);
-        }
-      });
-    };
-  };
 
   return (
     <View style={Styles.appContainer}>
