@@ -1,5 +1,5 @@
-/* Connection options prop is no way    
-   and exaustive list of options avaiLabel.
+/* Connection options prop is in no way    
+   ad exaustive list of options available.
    Please see https://github.com/mqttjs/MQTT.js/blob/master/README.md#client
    for more detais.
 */
